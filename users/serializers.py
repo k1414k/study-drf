@@ -43,5 +43,13 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
 
-    # def validate(self, data):
-    #     user = authenticate(**data)d
+    def validate(self, data):
+        from django.contrib.auth import authenticate
+
+        user = authenticate(**data)
+        if user:
+            token = Token.objects.get(user=user)
+            return token
+        raise serializers.ValidationError(
+            {"error": "unable!!! provided credentail!!!"}
+        )
