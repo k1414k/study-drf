@@ -1,6 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, status, response
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer
+from .models import Profile
+
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()

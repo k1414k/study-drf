@@ -5,6 +5,16 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
+from .models import Profile
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ("nickname", "position", "subjects", "image")
+
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
@@ -51,5 +61,5 @@ class LoginSerializer(serializers.Serializer):
             token = Token.objects.get(user=user)
             return token
         raise serializers.ValidationError(
-            {"error": "unable!!! provided credentail!!!"}
+            {"error": "idやpwがマッチしません"}
         )
